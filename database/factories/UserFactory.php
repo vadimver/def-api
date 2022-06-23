@@ -19,7 +19,6 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'uuid' => $this->faker->uuid(),
             'nickname' => $this->faker->unique()->userName(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
