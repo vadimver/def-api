@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -32,10 +32,10 @@ class AuthController extends Controller
     {
         $successAttempt = auth()->attempt($request->validated());
 
-        if (!$successAttempt) {
+        if (! $successAttempt) {
             return response()->json([
                 'message' => __('messages.unauthorized_login'),
-                'errors' => __('messages.unauthorized')
+                'errors' => __('messages.unauthorized'),
             ], Response::HTTP_UNAUTHORIZED);
         }
 
@@ -50,7 +50,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => __('messages.logout'),
-            'result' => __('messages.success')
+            'result' => __('messages.success'),
         ], Response::HTTP_OK);
     }
 

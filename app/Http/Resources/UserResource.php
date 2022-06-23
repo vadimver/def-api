@@ -21,10 +21,11 @@ class UserResource extends JsonResource
                 'name' => $this->name,
                 'nickname' => $this->nickname,
                 'logo' => $this->logo,
-                'email' => $this->email
-            ]
+                'email' => $this->email,
+            ],
         ];
     }
+
     /**
      * Get additional data that should be returned with the resource array.
      *
@@ -36,7 +37,7 @@ class UserResource extends JsonResource
         return [
             'token' => $this->createToken('auth_token')->plainTextToken,
             'token_type' => 'Bearer',
-            'result' => __('messages.success')
+            'result' => __('messages.success'),
         ];
     }
 }
