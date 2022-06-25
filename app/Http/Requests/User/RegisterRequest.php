@@ -20,7 +20,7 @@ class RegisterRequest extends FormRequest
             'nickname' => 'required|string|max:255|unique:users,nickname',
             'email' => 'required|email|max:255|unique:users,email',
             'role' => ['nullable', new Enum(UserRole::class)],
-            'logo' => 'nullable|file|mimes:jpg,jpeg,png',
+            'avatar' => 'nullable|image',
             'password' => 'required|confirmed|min:8',
         ];
     }
