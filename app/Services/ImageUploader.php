@@ -9,10 +9,10 @@ final class ImageUploader
 {
     public function upload(?UploadedFile $file, string $path = 'images'): ?string
     {
-        if ($file) {
-            return Storage::disk('public')->put($path, $file);
+        if ($file === null) {
+            return null;
         }
 
-        return null;
+        return Storage::disk('public')->put($path, $file);
     }
 }
