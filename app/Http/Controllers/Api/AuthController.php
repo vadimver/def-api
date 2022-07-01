@@ -7,21 +7,22 @@ use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\ImageUploader;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
-    protected User $user;
-
-    public function __construct(User $user)
+    public function __construct(protected User $user)
     {
-        $this->user = $user;
     }
 
-    public function register(RegisterRequest $request): JsonResponse
+    public function register(RegisterRequest $request, ImageUploader $imageUploader): JsonResponse
     {
-        $user = $this->user->create($request->validated());
+        $avatarPath = $imageUploader->upload($request->file('avatar'), 'avatars');
+        $validatedData = array_merge($request->validated(), ['avatar' => $avatarPath]);
+
+        $user = $this->user->create($validatedData);
 
         return $this->userResponse($user)
             ->response()
@@ -46,7 +47,7 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
-        auth()->user()->currentAccessToken()->delete();
+        auth()->user()->tokens()->where('id', auth()->id())->delete();
 
         return response()->json([
             'message' => __('messages.logout'),

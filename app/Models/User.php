@@ -26,6 +26,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'nickname',
+        'avatar',
         'email',
         'password',
     ];
@@ -49,11 +50,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'role' => UserRole::class,
     ];
-
-    public function setPasswordAttribute(string $password): void
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
 
     public function getRouteKeyName(): string
     {
