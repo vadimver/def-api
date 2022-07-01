@@ -51,11 +51,6 @@ class User extends Authenticatable
         'role' => UserRole::class,
     ];
 
-    public function setPasswordAttribute(string $password): void
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
-
     public function getRouteKeyName(): string
     {
         return 'uuid';
