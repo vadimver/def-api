@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Http\Response;
-use function Pest\Faker\faker;
 use function Pest\Laravel\postJson;
 
 // Success
@@ -38,5 +37,3 @@ it('should return 401 if request have incorrect data', function () {
         ->assertStatus(Response::HTTP_UNAUTHORIZED)
         ->json('data');
 });
-
-

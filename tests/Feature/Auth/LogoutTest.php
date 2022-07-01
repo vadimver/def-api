@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Http\Response;
-use function Pest\Faker\faker;
 use function Pest\Laravel\postJson;
 
 // Success
