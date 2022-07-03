@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Feature\Auth;
+
 use App\Models\User;
 use Illuminate\Http\Response;
 use function Pest\Laravel\postJson;
