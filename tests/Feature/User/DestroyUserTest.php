@@ -31,7 +31,7 @@ it('should return 404 if User does not have correct uuid', function () {
         ->assertStatus(Response::HTTP_OK)
         ->json('token');
 
-    $wrongUuid = $user->uuid . "1";
+    $wrongUuid = $user->uuid.'1';
 
     deleteJson(route('users.destroy', $wrongUuid))
         ->assertStatus(Response::HTTP_NOT_FOUND);

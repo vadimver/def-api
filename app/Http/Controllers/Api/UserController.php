@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function destroy(User $user): Response
     {
-        $a = $user->delete();
+        $user->delete();
 
         return response([], Response::HTTP_NO_CONTENT);
     }

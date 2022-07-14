@@ -17,19 +17,17 @@ class AuthController extends Controller
     {
     }
 
-    public function register(RegisterRequest $request, ImageUploader $imageUploader): JsonResponse
+    public function register(RegisterRequest $request, ImageUploader $imageUploader): UserResource
     {
         $avatarPath = $imageUploader->upload($request->file('avatar'), 'avatars');
         $validatedData = array_merge($request->validated(), ['avatar' => $avatarPath]);
 
         $user = $this->user->create($validatedData);
 
-        return $this->userResponse($user)
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return new UserResource($user);
     }
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request): UserResource
     {
         $successAttempt = auth()->attempt($request->validated());
 
@@ -40,9 +38,7 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        return $this->userResponse(auth()->user())
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return new UserResource(auth()->user());
     }
 
     public function logout(): JsonResponse
@@ -53,10 +49,5 @@ class AuthController extends Controller
             'message' => __('messages.logout'),
             'result' => __('messages.success'),
         ], Response::HTTP_OK);
-    }
-
-    protected function userResponse(User $user): UserResource
-    {
-        return new UserResource($user);
     }
 }

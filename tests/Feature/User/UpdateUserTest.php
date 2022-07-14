@@ -4,8 +4,6 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Response;
-use Illuminate\Http\UploadedFile;
-use function Pest\Faker\faker;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\putJson;
 
