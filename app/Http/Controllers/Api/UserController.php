@@ -12,22 +12,18 @@ use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    public function show(User $user): JsonResponse
+    public function show(User $user): UserResource
     {
-        return $this->userResponse($user)
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return new UserResource($user);
     }
 
-    public function update(UpdateRequest $request, User $user, ImageUploader $imageUploader): JsonResponse
+    public function update(UpdateRequest $request, User $user, ImageUploader $imageUploader): UserResource
     {
         $avatarPath = $imageUploader->upload($request->file('avatar'), 'avatars');
         $validatedData = array_merge($request->validated(), ['avatar' => $avatarPath]);
         $user->update($validatedData);
 
-        return $this->userResponse($user)
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return new UserResource($user);
     }
 
     public function destroy(User $user): Response

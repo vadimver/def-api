@@ -16,6 +16,7 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->uuid,
+            'type' => 'Comment',
             'attributes' => [
                 'body' => $this->body,
             ],

@@ -25,13 +25,15 @@ class PostController extends Controller
         return new PostCollection($collection);
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): Response
     {
         $verifiedData = $this->postService->storeData($request);
         $post = $this->post->create($verifiedData);
         $post->tags()->sync($request->tagIds ?? []);
 
-        return new PostResource($post);
+        return response([
+            'data' => new PostResource($post),
+        ], Response::HTTP_CREATED);
     }
 
     public function show(Post $post): PostResource

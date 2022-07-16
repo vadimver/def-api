@@ -8,7 +8,6 @@ use App\Http\Requests\User\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\ImageUploader;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class AuthController extends Controller
@@ -17,35 +16,39 @@ class AuthController extends Controller
     {
     }
 
-    public function register(RegisterRequest $request, ImageUploader $imageUploader): UserResource
+    public function register(RegisterRequest $request, ImageUploader $imageUploader): Response
     {
         $avatarPath = $imageUploader->upload($request->file('avatar'), 'avatars');
         $validatedData = array_merge($request->validated(), ['avatar' => $avatarPath]);
 
         $user = $this->user->create($validatedData);
 
-        return new UserResource($user);
+        return response([
+            'data' => new UserResource($user),
+        ], Response::HTTP_CREATED);
     }
 
-    public function login(LoginRequest $request): UserResource
+    public function login(LoginRequest $request): Response
     {
         $successAttempt = auth()->attempt($request->validated());
 
         if (! $successAttempt) {
-            return response()->json([
+            return response([
                 'message' => __('messages.unauthorized_login'),
                 'errors' => __('messages.unauthorized'),
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        return new UserResource(auth()->user());
+        return response([
+            'data' => new UserResource(auth()->user()),
+        ], Response::HTTP_OK);
     }
 
-    public function logout(): JsonResponse
+    public function logout(): Response
     {
         auth()->user()->tokens()->where('id', auth()->id())->delete();
 
-        return response()->json([
+        return response([
             'message' => __('messages.logout'),
             'result' => __('messages.success'),
         ], Response::HTTP_OK);

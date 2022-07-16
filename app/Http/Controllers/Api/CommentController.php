@@ -15,11 +15,13 @@ class CommentController extends Controller
     {
     }
 
-    public function store(Post $post, StoreRequest $request): CommentResource
+    public function store(Post $post, StoreRequest $request): Response
     {
         $comment = $post->comments()->create(['body' => $request->body, 'user_id' => auth()->id()]);
 
-        return new CommentResource($comment);
+        return response([
+            'data' => new CommentResource($comment),
+        ], Response::HTTP_CREATED);
     }
 
     public function destroy(Comment $comment): Response

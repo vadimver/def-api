@@ -11,31 +11,43 @@ use function Pest\Laravel\postJson;
 // Success
 it('should register a user without avatar', function () {
     $password = faker()->password;
+    $fakeName = faker()->name;
+    $fakeEmail = faker()->email;
 
     $user = postJson('api/register', [
-        'name' => faker()->name,
+        'name' => $fakeName,
         'nickname' => faker()->userName,
-        'email' => faker()->email,
+        'email' => $fakeEmail,
         'password' => $password,
         'password_confirmation' => $password,
     ])
         ->assertStatus(Response::HTTP_CREATED)
         ->json('data');
+
+    expect($user)
+        ->attributes->name->toBe($fakeName)
+        ->attributes->email->toBe($fakeEmail);
 });
 
 it('should register a user with avatar', function () {
     $password = faker()->password;
+    $fakeName = faker()->name;
+    $fakeEmail = faker()->email;
 
     $user = postJson('api/register', [
-        'name' => faker()->name,
+        'name' => $fakeName,
         'nickname' => faker()->userName,
         'avatar' => UploadedFile::fake()->image('photo1.jpg'),
-        'email' => faker()->email,
+        'email' => $fakeEmail,
         'password' => $password,
         'password_confirmation' => $password,
     ])
         ->assertStatus(Response::HTTP_CREATED)
         ->json('data');
+
+    expect($user)
+        ->attributes->name->toBe($fakeName)
+        ->attributes->email->toBe($fakeEmail);
 });
 
 it('should include UUID', function () {
