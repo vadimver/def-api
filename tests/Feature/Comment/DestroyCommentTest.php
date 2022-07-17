@@ -5,6 +5,7 @@ namespace Tests\Feature\Comment;
 use App\Models\Comment;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
+use function Pest\Faker\faker;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\postJson;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ it('should destroy a comment', function () {
 it('should return 404 if Comment does not have correct uuid', function () {
     $comment = Comment::factory()->create();
 
-    $wrongUuid = $comment->uuid. 1;
+    $wrongUuid = faker()->uuid;
 
     deleteJson(route('comments.destroy', $wrongUuid))
         ->assertStatus(Response::HTTP_NOT_FOUND);

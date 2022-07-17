@@ -7,7 +7,6 @@ use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\ImageUploader;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
