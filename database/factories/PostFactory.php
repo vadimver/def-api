@@ -18,12 +18,12 @@ class PostFactory extends Factory
      */
     public function definition()
     {
-        $randomUserId = User::all()->random()->id;
-        $randomCategoryId = Category::all()->random()->id;
+        $userId = User::all()->random()->id;
+        $categoryId = Category::all()->random()->id;
 
         return [
-            'user_id' => $randomUserId,
-            'category_id' => $randomCategoryId,
+            'user_id' => $userId,
+            'category_id' => $categoryId,
             'title' => $this->faker->text($maxNbChars = 20),
             'excerpt' => $this->faker->paragraph,
             'body' => $this->faker->text($maxNbChars = 250),

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\User;
 
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -21,6 +21,9 @@ it('should show a user name and nickname', function () {
         ->assertStatus(Response::HTTP_OK)
         ->json('data');
 
-    expect($user)->name->toBe($showUser['attributes']['name']);
-    expect($user)->nickname->toBe($showUser['attributes']['nickname']);
+    expect($showUser)
+        ->attributes->name->toBe($user->name);
+
+    expect($showUser)
+        ->attributes->nickname->toBe($user->nickname);
 });

@@ -59,13 +59,15 @@ class Post extends Model
     public function filter(array $filters)
     {
         return $this->tag($filters['tagIds'] ?? null)
-            ->category($filters['category_id']);
+            ->category($filters['category_id'] ?? null);
     }
 
     public function scopeTag($query, $tagIds)
     {
-        return $query->whereHas('tags', function ($q) use ($tagIds) {
-            $q->whereIn('tag_id', $tagIds);
+        return $query->when($tagIds, function ($qq) use ($tagIds) {
+            $qq->whereHas('tags', function ($q) use ($tagIds) {
+                $q->whereIn('tag_id', $tagIds);
+            });
         });
     }
 
